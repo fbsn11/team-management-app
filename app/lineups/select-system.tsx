@@ -2,11 +2,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
-import { ThemedText } from '../../components/themed-text';
-import { ThemedView } from '../../components/themed-view';
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../../contexts/AppContext';
-import { useThemeColor } from '../../hooks/use-theme-color';
 import { showAlert } from '../../utils/alert';
 import { COLOR_THEMES, SYSTEMS } from '../../utils/constants';
 
@@ -64,12 +61,12 @@ export default function SelectSystemScreen() {
       >
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
           <View>
-            <ThemedText style={{ fontSize: 20, fontWeight: 'bold', color: '#1f2937', marginBottom: 8 }}>
+            <Text style={{ fontSize: 20, fontWeight: 'bold', color: '#1f2937', marginBottom: 8 }}>
               {system.name}
-            </ThemedText>
-            <ThemedText style={{ fontSize: 14, color: '#6b7280' }}>
+            </Text>
+            <Text style={{ fontSize: 14, color: '#6b7280' }}>
               必要人数: {system.positions.length}名
-            </ThemedText>
+            </Text>
           </View>
           {isSelected && (
             <Ionicons name="checkmark-circle" size={32} color="#8b5cf6" />
@@ -79,34 +76,32 @@ export default function SelectSystemScreen() {
     );
   };
 
-  const backgroundColor = useThemeColor({}, 'background');
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor }}>
-      <ThemedView style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: currentTheme.primary }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f9fafb' }}>
+      <View style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: currentTheme.primary }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
-          <ThemedText style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>システム選択</ThemedText>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>システム選択</Text>
           <View style={{ width: 24 }} />
         </View>
-      </ThemedView>
+      </View>
 
-      <ThemedView style={{ padding: 16, backgroundColor: '#f3f4f6' }}>
-        <ThemedText style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937' }}>
+      <View style={{ padding: 16, backgroundColor: '#f3f4f6' }}>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937' }}>
           {selectedMatch?.title}
-        </ThemedText>
-        <ThemedText style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>
+        </Text>
+        <Text style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>
           参加選手: {lineupData?.selectedPlayerIds?.length || 0}名
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
 
       <ScrollView style={{ flex: 1, padding: 16 }}>
         {availableSystems.length === 0 ? (
-          <ThemedView style={{ alignItems: 'center', justifyContent: 'center', padding: 64 }}>
-            <ThemedText style={{ fontSize: 16, color: '#6b7280' }}>利用可能なシステムがありません</ThemedText>
-          </ThemedView>
+          <View style={{ alignItems: 'center', justifyContent: 'center', padding: 64 }}>
+            <Text style={{ fontSize: 16, color: '#6b7280' }}>利用可能なシステムがありません</Text>
+          </View>
         ) : (
           availableSystems.map((system, index) => (
             <SystemCard key={index} system={system} />
@@ -114,14 +109,14 @@ export default function SelectSystemScreen() {
         )}
       </ScrollView>
 
-      <ThemedView style={{ padding: 16, borderTopWidth: 1, borderTopColor: '#e5e7eb' }}>
+      <View style={{ padding: 16, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#e5e7eb' }}>
         <TouchableOpacity
           style={{ paddingVertical: 12, paddingHorizontal: 24, borderRadius: 8, backgroundColor: currentTheme.primary, alignItems: 'center' }}
           onPress={handleNext}
         >
-          <ThemedText style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>次へ</ThemedText>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>次へ</Text>
         </TouchableOpacity>
-      </ThemedView>
+      </View>
     </SafeAreaView>
   );
 }

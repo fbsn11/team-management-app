@@ -2,11 +2,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
-import { ThemedText } from '../../components/themed-text';
-import { ThemedView } from '../../components/themed-view';
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../../contexts/AppContext';
-import { useThemeColor } from '../../hooks/use-theme-color';
 import { showAlert } from '../../utils/alert';
 import { COLOR_THEMES } from '../../utils/constants';
 
@@ -155,39 +152,37 @@ export default function PositionsScreen() {
 
   const positionOrder = ['FW', 'MF', 'DF', 'GK', 'FP'];
 
-  const backgroundColor = useThemeColor({}, 'background');
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor }}>
-      <ThemedView style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: currentTheme.primary }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f9fafb' }}>
+      <View style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: currentTheme.primary }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
-          <ThemedText style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>
             {isEditMode ? 'ポジション編集' : 'ポジション配置'}
-          </ThemedText>
+          </Text>
           <View style={{ width: 24 }} />
         </View>
-      </ThemedView>
+      </View>
 
-      <ThemedView style={{ padding: 16, backgroundColor: '#f3f4f6' }}>
-        <ThemedText style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937' }}>
+      <View style={{ padding: 16, backgroundColor: '#f3f4f6' }}>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937' }}>
           {selectedMatch?.title}
-        </ThemedText>
-        <ThemedText style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>
+        </Text>
+        <Text style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>
           システム: {lineupData?.system}
-        </ThemedText>
+        </Text>
         {isEditMode && (
-          <ThemedText style={{ fontSize: 12, color: currentTheme.primary, marginTop: 4, fontWeight: 'bold' }}>
+          <Text style={{ fontSize: 12, color: currentTheme.primary, marginTop: 4, fontWeight: 'bold' }}>
             編集モード
-          </ThemedText>
+          </Text>
         )}
-      </ThemedView>
+      </View>
 
       <ScrollView style={{ flex: 1 }}>
         {/* フィールド */}
-        <ThemedView style={{ padding: 16, backgroundColor: '#16a34a20' }}>
+        <View style={{ padding: 16, backgroundColor: '#16a34a20' }}>
           <View style={{
             backgroundColor: '#16a34a',
             borderRadius: 12,
@@ -227,21 +222,21 @@ export default function PositionsScreen() {
                           }
                         }}
                       >
-                        <ThemedText style={{
+                        <Text style={{
                           fontSize: 10,
                           color: pos.playerId ? '#fff' : '#6b7280',
                           fontWeight: 'bold'
                         }}>
                           {pos.position}
-                        </ThemedText>
-                        <ThemedText style={{
+                        </Text>
+                        <Text style={{
                           fontSize: 14,
                           color: pos.playerId ? '#fff' : '#9ca3af',
                           fontWeight: 'bold',
                           marginTop: 2
                         }}>
                           {pos.playerName || '未配置'}
-                        </ThemedText>
+                        </Text>
                       </TouchableOpacity>
                     ))}
                   </View>
@@ -249,13 +244,13 @@ export default function PositionsScreen() {
               );
             })}
           </View>
-        </ThemedView>
+        </View>
 
         {/* 未配置選手 */}
-        <ThemedView style={{ padding: 16 }}>
-          <ThemedText style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937', marginBottom: 12 }}>
+        <View style={{ padding: 16 }}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937', marginBottom: 12 }}>
             未配置選手 ({unassignedPlayers.length}名)
-          </ThemedText>
+          </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {unassignedPlayers.map(player => (
               <TouchableOpacity
@@ -270,29 +265,29 @@ export default function PositionsScreen() {
                 }}
                 onPress={() => setSelectedPlayerId(player.id)}
               >
-                <ThemedText style={{
+                <Text style={{
                   fontSize: 14,
                   color: selectedPlayerId === player.id ? '#fff' : '#1f2937',
                   fontWeight: 'bold'
                 }}>
                   {player.name}
-                </ThemedText>
+                </Text>
               </TouchableOpacity>
             ))}
           </View>
-        </ThemedView>
+        </View>
       </ScrollView>
 
-      <ThemedView style={{ padding: 16, borderTopWidth: 1, borderTopColor: '#e5e7eb' }}>
+      <View style={{ padding: 16, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#e5e7eb' }}>
         <TouchableOpacity
           style={{ paddingVertical: 12, paddingHorizontal: 24, borderRadius: 8, backgroundColor: currentTheme.primary, alignItems: 'center' }}
           onPress={handleComplete}
         >
-          <ThemedText style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>
             {isEditMode ? '更新' : '完了'}
-          </ThemedText>
+          </Text>
         </TouchableOpacity>
-      </ThemedView>
+      </View>
     </SafeAreaView>
   );
 }

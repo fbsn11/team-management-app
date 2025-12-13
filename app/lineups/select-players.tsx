@@ -2,11 +2,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
-import { ThemedText } from '../../components/themed-text';
-import { ThemedView } from '../../components/themed-view';
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../../contexts/AppContext';
-import { useThemeColor } from '../../hooks/use-theme-color';
 import { showAlert } from '../../utils/alert';
 import { COLOR_THEMES } from '../../utils/constants';
 
@@ -50,39 +47,36 @@ export default function SelectPlayersScreen() {
     router.push('/lineups/select-system');
   };
 
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor }}>
-      <ThemedView style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: currentTheme.primary }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f9fafb' }}>
+      <View style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: currentTheme.primary }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
-          <ThemedText style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>参加選手選択</ThemedText>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>参加選手選択</Text>
           <View style={{ width: 24 }} />
         </View>
-      </ThemedView>
+      </View>
 
-      <ThemedView style={{ padding: 16, backgroundColor: '#f3f4f6' }}>
-        <ThemedText style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937' }}>
+      <View style={{ padding: 16, backgroundColor: '#f3f4f6' }}>
+        <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937' }}>
           {selectedMatch?.title}
-        </ThemedText>
-        <ThemedText style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>
+        </Text>
+        <Text style={{ fontSize: 14, color: '#6b7280', marginTop: 4 }}>
           {selectedMatch?.datetime}
-        </ThemedText>
-        <ThemedText style={{ fontSize: 14, color: currentTheme.primary, marginTop: 8, fontWeight: 'bold' }}>
+        </Text>
+        <Text style={{ fontSize: 14, color: currentTheme.primary, marginTop: 8, fontWeight: 'bold' }}>
           選択中: {selectedPlayerIds.length}名
-        </ThemedText>
-      </ThemedView>
+        </Text>
+      </View>
 
       <ScrollView style={{ flex: 1 }}>
         {teamPlayers.length === 0 ? (
-          <ThemedView style={{ alignItems: 'center', justifyContent: 'center', padding: 64 }}>
+          <View style={{ alignItems: 'center', justifyContent: 'center', padding: 64 }}>
             <Ionicons name="person-outline" size={64} color="#d1d5db" />
-            <ThemedText style={{ fontSize: 16, color: '#6b7280', marginTop: 16 }}>選手が登録されていません</ThemedText>
-          </ThemedView>
+            <Text style={{ fontSize: 16, color: '#6b7280', marginTop: 16 }}>選手が登録されていません</Text>
+          </View>
         ) : (
           teamPlayers.map(player => (
             <TouchableOpacity
@@ -110,9 +104,9 @@ export default function SelectPlayersScreen() {
                   )}
                 </View>
                 <View style={{ flex: 1 }}>
-                  <ThemedText style={{ fontSize: 16, fontWeight: '500' }}>{player.name}</ThemedText>
+                  <Text style={{ fontSize: 16, fontWeight: '500' }}>{player.name}</Text>
                   {player.memo ? (
-                    <ThemedText style={{ fontSize: 14, color: '#6b7280', marginTop: 2 }}>{player.memo}</ThemedText>
+                    <Text style={{ fontSize: 14, color: '#6b7280', marginTop: 2 }}>{player.memo}</Text>
                   ) : null}
                 </View>
               </View>
@@ -121,14 +115,14 @@ export default function SelectPlayersScreen() {
         )}
       </ScrollView>
 
-      <ThemedView style={{ padding: 16, borderTopWidth: 1, borderTopColor: '#e5e7eb' }}>
+      <View style={{ padding: 16, backgroundColor: '#fff', borderTopWidth: 1, borderTopColor: '#e5e7eb' }}>
         <TouchableOpacity
           style={{ paddingVertical: 12, paddingHorizontal: 24, borderRadius: 8, backgroundColor: currentTheme.primary, alignItems: 'center' }}
           onPress={handleNext}
         >
-          <ThemedText style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>次へ</ThemedText>
+          <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#fff' }}>次へ</Text>
         </TouchableOpacity>
-      </ThemedView>
+      </View>
     </SafeAreaView>
   );
 }

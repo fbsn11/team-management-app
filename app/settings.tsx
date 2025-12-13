@@ -2,11 +2,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import React from 'react';
-import { SafeAreaView, ScrollView, TouchableOpacity, View } from 'react-native';
-import { ThemedText } from '../components/themed-text';
-import { ThemedView } from '../components/themed-view';
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../contexts/AppContext';
-import { useThemeColor } from '../hooks/use-theme-color';
 import { COLOR_THEMES } from '../utils/constants';
 
 export default function SettingsScreen() {
@@ -14,31 +11,28 @@ export default function SettingsScreen() {
   const { colorTheme, setColorTheme } = useApp();
   const currentTheme = COLOR_THEMES.find(t => t.id === colorTheme) || COLOR_THEMES[0];
 
-  const backgroundColor = useThemeColor({}, 'background');
-  const textColor = useThemeColor({}, 'text');
-
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor }}>
-      <ThemedView style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: currentTheme.primary }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#f9fafb' }}>
+      <View style={{ paddingVertical: 12, paddingHorizontal: 16, backgroundColor: currentTheme.primary }}>
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
-          <ThemedText style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>設定</ThemedText>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>設定</Text>
           <View style={{ width: 24 }} />
         </View>
-      </ThemedView>
+      </View>
 
       <ScrollView style={{ flex: 1 }}>
-        <ThemedView style={{ padding: 16 }}>
-          <ThemedText style={{
+        <View style={{ padding: 16 }}>
+          <Text style={{
             fontSize: 18,
             fontWeight: 'bold',
             color: '#1f2937',
             marginBottom: 16
           }}>
             カラーテーマ
-          </ThemedText>
+          </Text>
 
           <View style={{ gap: 12 }}>
             {COLOR_THEMES.map(theme => (
@@ -76,13 +70,13 @@ export default function SettingsScreen() {
                       backgroundColor: theme.secondary
                     }} />
                   </View>
-                  <ThemedText style={{
+                  <Text style={{
                     fontSize: 16,
                     fontWeight: 'bold',
                     color: '#1f2937'
                   }}>
                     {theme.name}
-                  </ThemedText>
+                  </Text>
                 </View>
                 {colorTheme === theme.id && (
                   <Ionicons name="checkmark-circle" size={28} color={theme.primary} />
@@ -91,20 +85,20 @@ export default function SettingsScreen() {
             ))}
           </View>
 
-          <ThemedView style={{
+          <View style={{
             marginTop: 24,
             padding: 16,
             backgroundColor: '#eff6ff',
             borderRadius: 8
           }}>
-            <ThemedText style={{ fontSize: 14, color: '#1e40af' }}>
+            <Text style={{ fontSize: 14, color: '#1e40af' }}>
               💡 メインカラーは1stユニフォームの色を選択してください
-            </ThemedText>
-            <ThemedText style={{ fontSize: 14, color: '#1e40af', marginTop: 8 }}>
+            </Text>
+            <Text style={{ fontSize: 14, color: '#1e40af', marginTop: 8 }}>
               💡 セカンダリカラーは2ndユニフォームの色を選択してください
-            </ThemedText>
-          </ThemedView>
-        </ThemedView>
+            </Text>
+          </View>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
