@@ -4,7 +4,6 @@ import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../../contexts/AppContext';
-import { showAlert } from '../../utils/alert';
 import { COLOR_THEMES } from '../../utils/constants';
 
 export default function SelectPlayersScreen() {
@@ -15,29 +14,14 @@ export default function SelectPlayersScreen() {
   const [selectedPlayerIds, setSelectedPlayerIds] = useState<number[]>([]);
 
   useEffect(() => {
-    if (lineupData?.selectedPlayerIds) {
-      setSelectedPlayerIds(lineupData.selectedPlayerIds);
+    if (selectedMatch?.selectedPlayerIds) {
+      setSelectedPlayerIds(selectedMatch.selectedPlayerIds);
     }
-  }, [lineupData]);
+  }, [selectedMatch]);
 
-  const teamPlayers = data.players.filter(p => p.teamId === selectedTeam?.id);
-
-  const togglePlayer = (playerId: number) => {
-    setSelectedPlayerIds(prev => {
-      if (prev.includes(playerId)) {
-        return prev.filter(id => id !== playerId);
-      } else {
-        return [...prev, playerId];
-      }
-    });
-  };
+  const teamPlayers = data.players.filter(p => p.teamId === selectedTeam?.id && selectedMatch?.selectedPlayerIds.includes(p.id));
 
   const handleNext = () => {
-    if (selectedPlayerIds.length === 0) {
-      showAlert('参加選手を選択してください');
-      return;
-    }
-
     setLineupData({
       ...lineupData,
       selectedPlayerIds,
@@ -54,7 +38,7 @@ export default function SelectPlayersScreen() {
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />
           </TouchableOpacity>
-          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>参加選手選択</Text>
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#fff' }}>参加選手確認</Text>
           <View style={{ width: 24 }} />
         </View>
       </View>
@@ -67,7 +51,7 @@ export default function SelectPlayersScreen() {
           {selectedMatch?.datetime}
         </Text>
         <Text style={{ fontSize: 14, color: currentTheme.primary, marginTop: 8, fontWeight: 'bold' }}>
-          選択中: {selectedPlayerIds.length}名
+          参加選手: {selectedPlayerIds.length}名
         </Text>
       </View>
 
@@ -75,17 +59,16 @@ export default function SelectPlayersScreen() {
         {teamPlayers.length === 0 ? (
           <View style={{ alignItems: 'center', justifyContent: 'center', padding: 64 }}>
             <Ionicons name="person-outline" size={64} color="#d1d5db" />
-            <Text style={{ fontSize: 16, color: '#6b7280', marginTop: 16 }}>選手が登録されていません</Text>
+            <Text style={{ fontSize: 16, color: '#6b7280', marginTop: 16 }}>参加選手が選択されていません</Text>
           </View>
         ) : (
           teamPlayers.map(player => (
-            <TouchableOpacity
+            <View
               key={player.id}
               style={[
                 { padding: 16, borderBottomWidth: 1, borderBottomColor: '#e5e7eb', backgroundColor: 'transparent' },
                 selectedPlayerIds.includes(player.id) && { backgroundColor: '#ede9fe' }
               ]}
-              onPress={() => togglePlayer(player.id)}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
                 <View style={{
@@ -110,7 +93,7 @@ export default function SelectPlayersScreen() {
                   ) : null}
                 </View>
               </View>
-            </TouchableOpacity>
+            </View>
           ))
         )}
       </ScrollView>

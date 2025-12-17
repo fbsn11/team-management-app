@@ -6,18 +6,21 @@ import { SafeAreaView, ScrollView, Text, TextInput, TouchableOpacity, View } fro
 import { useApp } from '../../contexts/AppContext';
 import { commonStyles } from '../../styles/commonStyles';
 import { showAlert } from '../../utils/alert';
-import { COLOR_THEMES, PLAYER_COUNTS } from '../../utils/constants';
+import { COLOR_THEMES } from '../../utils/constants';
 
 export default function MatchEditScreen() {
   const router = useRouter();
   const { data, setData, selectedTeam, editingItem, setEditingItem, colorTheme } = useApp();
   const currentTheme = COLOR_THEMES.find(t => t.id === colorTheme) || COLOR_THEMES[0];
   
+  const teamPlayers = data.players.filter(p => p.teamId === selectedTeam?.id);
+  
   const [matchForm, setMatchForm] = useState({ 
     datetime: '', 
     title: '', 
     memo: '',
-    playerCount: selectedTeam?.defaultPlayerCount || 11
+    playerCount: selectedTeam?.defaultPlayerCount || 11,
+    selectedPlayerIds: [] as number[]
   });
 
   useEffect(() => {
@@ -26,14 +29,16 @@ export default function MatchEditScreen() {
         datetime: editingItem.datetime,
         title: editingItem.title,
         memo: editingItem.memo,
-        playerCount: editingItem.playerCount || selectedTeam?.defaultPlayerCount || 11
+        playerCount: editingItem.playerCount || selectedTeam?.defaultPlayerCount || 11,
+        selectedPlayerIds: editingItem.selectedPlayerIds || []
       });
     } else {
       setMatchForm({
         datetime: '',
         title: '',
         memo: '',
-        playerCount: selectedTeam?.defaultPlayerCount || 11
+        playerCount: selectedTeam?.defaultPlayerCount || 11,
+        selectedPlayerIds: []
       });
     }
   }, [editingItem, selectedTeam]);
@@ -60,7 +65,7 @@ export default function MatchEditScreen() {
       setData(prev => ({ ...prev, matches: [...prev.matches, newMatch] }));
     }
 
-    setMatchForm({ datetime: '', title: '', memo: '', playerCount: selectedTeam?.defaultPlayerCount || 11 });
+    setMatchForm({ datetime: '', title: '', memo: '', playerCount: selectedTeam?.defaultPlayerCount || 11, selectedPlayerIds: [] });
     setEditingItem(null);
     router.back();
   };
@@ -103,25 +108,51 @@ export default function MatchEditScreen() {
             placeholderTextColor="#9ca3af"
           />
 
-          <Text style={commonStyles.formLabel}>人数制</Text>
-          <View style={commonStyles.pickerContainer}>
-            {PLAYER_COUNTS.map(pc => (
-              <TouchableOpacity
-                key={pc.value}
-                style={[
-                  commonStyles.pickerItem,
-                  matchForm.playerCount === pc.value && commonStyles.pickerItemSelected
-                ]}
-                onPress={() => setMatchForm({ ...matchForm, playerCount: pc.value })}
-              >
-                <Text style={[
-                  commonStyles.pickerText,
-                  matchForm.playerCount === pc.value && commonStyles.pickerTextSelected
-                ]}>
-                  {pc.label}
-                </Text>
-              </TouchableOpacity>
-            ))}
+          <Text style={commonStyles.formLabel}>参加選手選択</Text>
+          <View style={{ marginBottom: 16 }}>
+            {teamPlayers.length === 0 ? (
+              <Text style={{ color: '#6b7280', fontSize: 14 }}>選手が登録されていません</Text>
+            ) : (
+              teamPlayers.map(player => (
+                <TouchableOpacity
+                  key={player.id}
+                  style={{
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                    paddingVertical: 8,
+                    paddingHorizontal: 12,
+                    borderRadius: 8,
+                    backgroundColor: matchForm.selectedPlayerIds.includes(player.id) ? '#ede9fe' : '#f9fafb',
+                    marginBottom: 8
+                  }}
+                  onPress={() => {
+                    setMatchForm(prev => ({
+                      ...prev,
+                      selectedPlayerIds: prev.selectedPlayerIds.includes(player.id)
+                        ? prev.selectedPlayerIds.filter(id => id !== player.id)
+                        : [...prev.selectedPlayerIds, player.id]
+                    }));
+                  }}
+                >
+                  <View style={{
+                    width: 20,
+                    height: 20,
+                    borderRadius: 4,
+                    borderWidth: 2,
+                    borderColor: matchForm.selectedPlayerIds.includes(player.id) ? currentTheme.primary : '#d1d5db',
+                    backgroundColor: matchForm.selectedPlayerIds.includes(player.id) ? currentTheme.primary : '#fff',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    marginRight: 12
+                  }}>
+                    {matchForm.selectedPlayerIds.includes(player.id) && (
+                      <Ionicons name="checkmark" size={14} color="#fff" />
+                    )}
+                  </View>
+                  <Text style={{ fontSize: 16, color: '#1f2937' }}>{player.name}</Text>
+                </TouchableOpacity>
+              ))
+            )}
           </View>
 
           <Text style={commonStyles.formLabel}>メモ</Text>

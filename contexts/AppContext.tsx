@@ -19,6 +19,7 @@ interface Match {
   title: string;
   memo: string;
   playerCount: number;
+  selectedPlayerIds: number[];
 }
 
 interface Player {
