@@ -44,7 +44,7 @@ export default function MatchListScreen() {
 
   return (
     <SafeAreaView style={commonStyles.container}>
-      <View style={[commonStyles.header, { backgroundColor: currentTheme.secondary }]}>
+      <View style={[commonStyles.header, { backgroundColor: currentTheme.primary }]}>
         <View style={commonStyles.headerContent}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />

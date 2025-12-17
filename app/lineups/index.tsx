@@ -1,15 +1,17 @@
 // app/lineups/index.tsx
-import React, { useState, useMemo } from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React, { useMemo, useState } from 'react';
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../../contexts/AppContext';
-import { showConfirm } from '../../utils/alert';
 import { commonStyles } from '../../styles/commonStyles';
+import { showConfirm } from '../../utils/alert';
+import { COLOR_THEMES } from '../../utils/constants';
 
 export default function LineupListScreen() {
   const router = useRouter();
-  const { data, setData, selectedMatch, setLineupData } = useApp();
+  const { data, setData, selectedMatch, setLineupData, colorTheme } = useApp();
+  const currentTheme = COLOR_THEMES.find(t => t.id === colorTheme) || COLOR_THEMES[0];
   const [activeTab, setActiveTab] = useState(0);
 
   const matchLineups = data.lineups
@@ -96,7 +98,7 @@ export default function LineupListScreen() {
 
   return (
     <SafeAreaView style={commonStyles.container}>
-      <View style={[commonStyles.header, { backgroundColor: '#8b5cf6' }]}>
+      <View style={[commonStyles.header, { backgroundColor: currentTheme.primary }]}>
         <View style={commonStyles.headerContent}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -142,9 +144,9 @@ export default function LineupListScreen() {
                     paddingVertical: 8,
                     paddingHorizontal: 16,
                     borderRadius: 8,
-                    backgroundColor: activeTab === index ? '#8b5cf6' : '#f3f4f6',
+                    backgroundColor: activeTab === index ? currentTheme.primary : '#f3f4f6',
                     borderWidth: 1,
-                    borderColor: activeTab === index ? '#8b5cf6' : '#e5e7eb'
+                    borderColor: activeTab === index ? currentTheme.primary : '#e5e7eb'
                   }}
                   onPress={() => setActiveTab(index)}
                 >
@@ -234,7 +236,7 @@ export default function LineupListScreen() {
                       </Text>
                       <View style={{ flex: 1, alignItems: 'center' }}>
                         <View style={{
-                          backgroundColor: '#8b5cf6',
+                          backgroundColor: currentTheme.primary,
                           borderRadius: 12,
                           paddingVertical: 4,
                           paddingHorizontal: 12,
@@ -385,7 +387,7 @@ export default function LineupListScreen() {
                                 <View
                                   key={index}
                                   style={{
-                                    backgroundColor: '#8b5cf6',
+                                    backgroundColor: currentTheme.primary,
                                     borderRadius: 25,
                                     paddingVertical: 8,
                                     paddingHorizontal: 16,
@@ -484,7 +486,7 @@ export default function LineupListScreen() {
                             {player.stat && (
                               <View style={{ flexDirection: 'row', gap: 4 }}>
                                 <View style={{
-                                  backgroundColor: '#8b5cf6',
+                                  backgroundColor: currentTheme.primary,
                                   borderRadius: 8,
                                   paddingHorizontal: 8,
                                   paddingVertical: 4

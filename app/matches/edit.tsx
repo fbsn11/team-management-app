@@ -67,7 +67,7 @@ export default function MatchEditScreen() {
 
   return (
     <SafeAreaView style={commonStyles.container}>
-      <View style={[commonStyles.header, { backgroundColor: currentTheme.secondary }]}>
+      <View style={[commonStyles.header, { backgroundColor: currentTheme.primary }]}>
         <View style={commonStyles.headerContent}>
           <TouchableOpacity onPress={() => router.back()}>
             <Ionicons name="arrow-back" size={24} color="#fff" />
@@ -137,7 +137,7 @@ export default function MatchEditScreen() {
           />
 
           <TouchableOpacity
-            style={[commonStyles.submitButton, { backgroundColor: currentTheme.secondary }]}
+            style={[commonStyles.submitButton, { backgroundColor: currentTheme.primary }]}
             onPress={saveMatch}
           >
             <Text style={commonStyles.submitButtonText}>
