@@ -79,8 +79,12 @@ export default function LineupListScreen() {
   };
 
   const startNewLineup = () => {
-    setLineupData({});
-    router.push('/lineups/select-players');
+    setLineupData({
+      selectedPlayerIds: selectedMatch?.selectedPlayerIds || [],
+      matchId: selectedMatch?.id,
+      teamId: selectedMatch?.teamId
+    });
+    router.push('/lineups/select-system');
   };
 
   const getGroupedPositions = (lineup: any) => {

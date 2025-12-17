@@ -1,17 +1,46 @@
 // app/players/index.tsx
-import React from 'react';
-import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native';
-import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React from 'react';
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../../contexts/AppContext';
-import { COLOR_THEMES } from '../../utils/constants';
-import { showConfirm } from '../../utils/alert';
 import { commonStyles } from '../../styles/commonStyles';
+import { showConfirm } from '../../utils/alert';
+import { COLOR_THEMES } from '../../utils/constants';
 
 export default function PlayerListScreen() {
   const router = useRouter();
   const { data, setData, selectedTeam, setEditingItem, colorTheme } = useApp();
   const currentTheme = COLOR_THEMES.find(t => t.id === colorTheme) || COLOR_THEMES[0];
+
+  if (!selectedTeam) {
+    return (
+      <SafeAreaView style={commonStyles.container}>
+        <View style={[commonStyles.header, { backgroundColor: currentTheme.primary }]}>
+          <View style={commonStyles.headerContent}>
+            <TouchableOpacity onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={24} color="#fff" />
+            </TouchableOpacity>
+            <Text style={commonStyles.headerTitle}>選手一覧</Text>
+            <View style={{ width: 24 }} />
+          </View>
+        </View>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 }}>
+          <Ionicons name="alert-circle" size={64} color="#ef4444" />
+          <Text style={{ fontSize: 18, fontWeight: 'bold', color: '#1f2937', marginTop: 16 }}>チームが選択されていません</Text>
+          <Text style={{ fontSize: 14, color: '#6b7280', textAlign: 'center', marginTop: 8 }}>
+            チームを選択してから選手を管理してください。
+          </Text>
+          <TouchableOpacity
+            style={[commonStyles.submitButton, { backgroundColor: currentTheme.primary, marginTop: 20 }]}
+            onPress={() => router.back()}
+          >
+            <Text style={commonStyles.submitButtonText}>戻る</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   const deletePlayer = (id: number) => {
     showConfirm('この選手を削除しますか?', () => {

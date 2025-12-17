@@ -30,7 +30,12 @@ export default function MatchListScreen() {
     if (hasLineup) {
       router.push('/lineups');
     } else {
-      router.push('/lineups/select-players');
+      setLineupData({
+        selectedPlayerIds: match.selectedPlayerIds || [],
+        matchId: match.id,
+        teamId: match.teamId
+      });
+      router.push('/lineups/select-system');
     }
   };
 
