@@ -104,7 +104,7 @@ export default function MatchEditScreen() {
             style={commonStyles.input}
             value={matchForm.title}
             onChangeText={(text) => setMatchForm({ ...matchForm, title: text })}
-            placeholder="例: 練習試合 vs 横浜FC"
+            placeholder="例: TM"
             placeholderTextColor="#9ca3af"
           />
 
