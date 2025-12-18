@@ -159,7 +159,7 @@ export default function LineupListScreen() {
                     fontWeight: 'bold',
                     color: activeTab === index ? '#fff' : '#6b7280'
                   }}>
-                    第{index + 1}本
+                    {index + 1}本目
                   </Text>
                   <Text style={{
                     fontSize: 12,

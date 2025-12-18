@@ -7,7 +7,7 @@ export const SYSTEMS: Record<number, { name: string; positions: string[] }[]> = 
   ],
   8: [
     { name: '3-3-1', positions: ['GK', 'DF1', 'DF2', 'DF3', 'MF1', 'MF2', 'MF3', 'FW1'] },
-    { name: '2-4-1', positions: ['GK', 'DF1', 'DF2', 'MF1', 'MF2', 'MF3', 'MF4', 'FW1'] }
+    { name: '2-3-2', positions: ['GK', 'DF1', 'DF2', 'MF1', 'MF2', 'MF3', 'FW2', 'FW2'] }
   ],
   7: [
     { name: '3-2-1', positions: ['GK', 'DF1', 'DF2', 'DF3', 'MF1', 'MF2', 'FW1'] },

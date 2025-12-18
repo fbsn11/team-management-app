@@ -25,7 +25,7 @@ export default function PositionsScreen() {
       // 編集モード: 既存のポジション配置を復元
       setPositions(lineupData.existingPositions);
 
-      // 未配置選手を計算
+      // ベンチ選手を計算
       const assignedPlayerIds = lineupData.existingPositions
         .filter((pos: any) => pos.playerId)
         .map((pos: any) => pos.playerId);
@@ -73,7 +73,7 @@ export default function PositionsScreen() {
     };
     setPositions(newPositions);
 
-    // 未配置から削除
+    // ベンチから削除
     setUnassignedPlayers(prev => prev.filter(p => p.id !== selectedPlayerId));
     setSelectedPlayerId(null);
   };
@@ -82,7 +82,7 @@ export default function PositionsScreen() {
     const position = positions[positionIndex];
     if (!position.playerId) return;
 
-    // 未配置に戻す
+    // ベンチに戻す
     setUnassignedPlayers(prev => [...prev, { id: position.playerId, name: position.playerName }]);
 
     // ポジションから削除
@@ -246,10 +246,10 @@ export default function PositionsScreen() {
           </View>
         </View>
 
-        {/* 未配置選手 */}
+        {/* ベンチ */}
         <View style={{ padding: 16 }}>
           <Text style={{ fontSize: 16, fontWeight: 'bold', color: '#1f2937', marginBottom: 12 }}>
-            未配置選手 ({unassignedPlayers.length}名)
+            ベンチ ({unassignedPlayers.length}名)
           </Text>
           <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
             {unassignedPlayers.map(player => (
