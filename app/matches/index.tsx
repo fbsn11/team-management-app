@@ -10,7 +10,7 @@ import { COLOR_THEMES, PLAYER_COUNTS } from '../../utils/constants';
 
 export default function MatchListScreen() {
   const router = useRouter();
-  const { data, setData, selectedTeam, setEditingItem, setSelectedMatch, colorTheme } = useApp();
+  const { data, setData, selectedTeam, setLineupData, setEditingItem, setSelectedMatch, colorTheme } = useApp();
   const currentTheme = COLOR_THEMES.find(t => t.id === colorTheme) || COLOR_THEMES[0];
 
   const deleteMatch = (id: number) => {
