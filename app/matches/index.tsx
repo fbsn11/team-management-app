@@ -10,7 +10,7 @@ import { COLOR_THEMES, PLAYER_COUNTS } from '../../utils/constants';
 
 export default function MatchListScreen() {
   const router = useRouter();
-  const { data, setData, selectedTeam, setLineupData, setEditingItem, setSelectedMatch, colorTheme } = useApp();
+  const { data, setData, selectedTeam, setLineupData, setEditingItem, colorTheme } = useApp();
   const currentTheme = COLOR_THEMES.find(t => t.id === colorTheme) || COLOR_THEMES[0];
 
   const deleteMatch = (id: number) => {
@@ -24,19 +24,7 @@ export default function MatchListScreen() {
   };
 
   const startLineup = (match: any) => {
-    setSelectedMatch(match);
-    const hasLineup = data.lineups?.some(l => l.matchId === match.id);
-    
-    if (hasLineup) {
-      router.push('/lineups');
-    } else {
-      setLineupData({
-        selectedPlayerIds: match.selectedPlayerIds || [],
-        matchId: match.id,
-        teamId: match.teamId
-      });
-      router.push('/lineups/select-system');
-    }
+    router.push({ pathname: '/lineups', params: { matchId: match.id } });
   };
 
   const hasLineup = (matchId: number) => {

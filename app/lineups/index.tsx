@@ -1,7 +1,7 @@
 // app/lineups/index.tsx
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
-import React, { useMemo, useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useEffect, useMemo, useState } from 'react';
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useApp } from '../../contexts/AppContext';
 import { commonStyles } from '../../styles/commonStyles';
@@ -10,9 +10,20 @@ import { COLOR_THEMES } from '../../utils/constants';
 
 export default function LineupListScreen() {
   const router = useRouter();
-  const { data, setData, selectedMatch, setLineupData, colorTheme } = useApp();
+  const { matchId } = useLocalSearchParams();
+  const { data, setData, selectedMatch, setLineupData, setSelectedMatch, colorTheme } = useApp();
   const currentTheme = COLOR_THEMES.find(t => t.id === colorTheme) || COLOR_THEMES[0];
   const [activeTab, setActiveTab] = useState(0);
+
+  useEffect(() => {
+    if (matchId && !selectedMatch) {
+      const id = Array.isArray(matchId) ? matchId[0] : matchId;
+      const match = data.matches.find(m => m.id === parseInt(id));
+      if (match) {
+        setSelectedMatch(match);
+      }
+    }
+  }, [matchId, data.matches, selectedMatch, setSelectedMatch]);
 
   const matchLineups = data.lineups
     ?.filter(l => l.matchId === selectedMatch?.id)
