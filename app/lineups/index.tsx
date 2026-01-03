@@ -16,14 +16,14 @@ export default function LineupListScreen() {
   const [activeTab, setActiveTab] = useState(0);
 
   useEffect(() => {
-    if (matchId && !selectedMatch) {
+    if (matchId) {
       const id = Array.isArray(matchId) ? matchId[0] : matchId;
       const match = data.matches.find(m => m.id === parseInt(id));
       if (match) {
         setSelectedMatch(match);
       }
     }
-  }, [matchId, data.matches, selectedMatch, setSelectedMatch]);
+  }, [matchId, data.matches, setSelectedMatch]);
 
   const matchLineups = data.lineups
     ?.filter(l => l.matchId === selectedMatch?.id)
